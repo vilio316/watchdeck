@@ -1,0 +1,53 @@
+{
+  "name": "watchdeck",
+  "productName": "Watchdeck",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Local external-drive media catalogue for Windows 11",
+  "main": "dist-electron/electron/main.js",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.electron.json && tsc -p tsconfig.json --noEmit && vite build",
+    "start": "npm run build && electron .",
+    "test": "tsc -p tsconfig.electron.json && node --test dist-electron/test/*.test.js",
+    "preview": "vite --host 127.0.0.1",
+    "package:win": "npm run build && electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "ffprobe-static": "^3.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "electron": "44.7.0",
+    "electron-builder": "^26.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.2.0"
+  },
+  "build": {
+    "appId": "local.watchdeck.desktop",
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "asarUnpack": [
+      "node_modules/ffprobe-static/bin/**/*"
+    ]
+  }
+}
